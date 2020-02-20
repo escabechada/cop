@@ -1,0 +1,18 @@
+---
+
+- name: "Create/Destroy keypair on Openstack"
+  os_keypair:
+    state: "{{ destroy | ternary('absent', 'present') }}"
+    name: key-jessica
+    public_key_file: "/home/jessicamartin/.ssh/id_rsa.pub"
+
+- name: "Create/Destroy instance on Openstack"
+  os_server:
+    state: "{{ destroy | ternary('absent', 'present') }}"
+    name: instance-jessica
+    image: c60877a1-e7cb-48ad-97b3-143a8e87e808
+    flavor: d1.medium
+    network: cop_network
+    key_name: key-jessica
+    delete_fip: true
+
