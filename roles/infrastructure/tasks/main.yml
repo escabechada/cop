@@ -4,7 +4,7 @@
   os_keypair:
     state: "{{ destroy | ternary('absent', 'present') }}"
     name: key-jessica
-    public_key_file: "/home/jessicamartin/.ssh/id_rsa.pub"
+    public_key_file: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
 
 - name: "Create/Destroy instance on Openstack"
   os_server:
@@ -15,4 +15,9 @@
     network: cop_network
     key_name: key-jessica
     delete_fip: true
+  register: instance
 
+- name: "IP of instance"
+  debug:
+    msg: "{{ instance.openstack.public_v4 }}"
+  when: not destroy

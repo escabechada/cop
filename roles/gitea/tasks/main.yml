@@ -1,0 +1,26 @@
+---
+
+- name: "Set repositories"
+  template:
+    src: default.repo.j2
+    dest: /etc/yum.repos.d/default.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Update packages"
+  shell: "yum -y update"
+  
+- name: "Install git and mariadb"
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - mariadb-server
+
+- name: "Start mariadb service"
+  service:
+    name: mariadb
+    state: started
+    enabled: yes

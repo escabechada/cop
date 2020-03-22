@@ -1,0 +1,6 @@
+---
+
+- hosts: instance-jessica
+  become: yes
+  roles:
+    - gitea
