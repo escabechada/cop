@@ -10,7 +10,31 @@
 
 - name: "Update packages"
   shell: "yum -y update"
-  
+
+- name: "Find pip package"
+  stat:
+    path: "{{ pip_path }}"
+  register: installed
+
+- name: "Install pip"
+  block:
+  - name: "Download package"
+    get_url:
+      url: "https://bootstrap.pypa.io/get-pip.py"
+      dest: "{{ pip_path }}"
+      mode: 0750
+  - name: "Install"
+    shell: "{{ pip_path }}"
+  - name: "Remove package"
+    file:
+      path: "{{ pip_path }}"
+      state: absent
+  when: not installed.stat.exists
+
+- name: "Install python packages"
+  pip:
+    name: PyMySQL
+
 - name: "Install git and mariadb"
   yum:
     name: "{{ item }}"
@@ -24,3 +48,10 @@
     name: mariadb
     state: started
     enabled: yes
+
+- name: "Remove anonymous user account for localhost"
+  mysql_user:
+    name: ''
+    host: localhost
+    state: absent
+
