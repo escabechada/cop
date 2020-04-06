@@ -25,10 +25,6 @@
       mode: 0750
   - name: "Install"
     shell: "{{ pip_path }}"
-  - name: "Remove package"
-    file:
-      path: "{{ pip_path }}"
-      state: absent
   when: not installed.stat.exists
 
 - name: "Install python packages"
@@ -49,9 +45,30 @@
     state: started
     enabled: yes
 
-- name: "Remove anonymous user account for localhost"
-  mysql_user:
-    name: ''
-    host: localhost
-    state: absent
+- name: "Find pip package"
+  stat:
+    path: /root/.my.cnf
+  register: mycnf
 
+- name: "Idempotence to users"
+  block:
+  # Not allow: mysql --user="anonymous"
+  - name: "Remove anonymous user account for localhost"
+    mysql_user:
+      name: ''
+      host: localhost
+      state: absent
+  
+  - name: "Change the root user’s password"
+    mysql_user:
+      name: root
+      password: 1234
+      check_implicit_admin: true
+      host: localhost
+  
+  - name: 'Create .my.cnf with credentials'
+    template:
+      src: my.cnf
+      dest: /root/.my.cnf
+      mode: 400
+  when: not mycnf.stat.exists
