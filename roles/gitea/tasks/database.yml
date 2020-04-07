@@ -1,0 +1,17 @@
+---
+
+- name: "Create a gitea database"
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: gitea
+    state: present
+
+- name: "Create database user"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: giteauser
+    password: "{{ giteauser_password }}"
+    priv: '*.*:ALL,GRANT'
+    host: localhost

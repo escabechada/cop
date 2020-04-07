@@ -35,7 +35,7 @@
   - name: "Change the root user’s password"
     mysql_user:
       name: root
-      password: 1234
+      password: "{{ mysql_root_password }}"
       check_implicit_admin: true
       host: localhost
   
@@ -45,3 +45,9 @@
       dest: /root/.my.cnf
       mode: 400
   when: not mycnf.stat.exists
+
+- import_tasks: database.yml
+
+- import_tasks: git.yml
+
+- import_tasks: gitea.yml

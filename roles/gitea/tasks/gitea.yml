@@ -1,0 +1,8 @@
+---
+
+- name: "Download gitea binary"
+  get_url:
+    url: "https://dl.gitea.io/gitea/{{ gitea_version }}/gitea-{{ gitea_version }}-linux-amd64"
+    dest: "{{ gitea_path }}"
+    mode: 0750
+

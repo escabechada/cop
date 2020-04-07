@@ -1,0 +1,40 @@
+---
+
+- name: "Create git user"
+  user:
+    name: git
+    system: true
+    shell: /bin/bash
+    comment: "Git Version Control"
+    home: /home/git
+
+- name: "Create gitea directory"
+  file:
+    path: "/etc/gitea"
+    recurse: true
+    owner: root
+    group: git
+    mode: 770
+
+- name: "Create required directories"
+  file:
+    path: "/var/lib/gitea/{{ item }}"
+    recurse: true
+  loop:
+    - custom
+    - data
+    - indexers
+    - public
+    - log
+
+- name: "Modify directories"
+  file:
+    path: "/var/lib/gitea/{{ item }}"
+    recurse: true
+    owner: git
+    group: git
+    mode: 750
+  loop:
+    - data
+    - indexers
+    - log
