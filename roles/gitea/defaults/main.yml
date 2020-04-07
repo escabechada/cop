@@ -1,5 +1,3 @@
-repository_ip: repo75.asgard.es.datio
-pip_path: /$HOME/get-pip.py
 mysql_root_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           32373862313164333539643038313533363262313638366465623161343266306238653837376161

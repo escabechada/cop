@@ -1,32 +1,5 @@
 ---
 
-- name: "Set repositories"
-  template:
-    src: default.repo.j2
-    dest: /etc/yum.repos.d/default.repo
-    owner: root
-    group: root
-    mode: 0644
-
-- name: "Update packages"
-  shell: "yum -y update"
-
-- name: "Find pip package"
-  stat:
-    path: "{{ pip_path }}"
-  register: installed
-
-- name: "Install pip"
-  block:
-  - name: "Download package"
-    get_url:
-      url: "https://bootstrap.pypa.io/get-pip.py"
-      dest: "{{ pip_path }}"
-      mode: 0750
-  - name: "Install"
-    shell: "{{ pip_path }}"
-  when: not installed.stat.exists
-
 - name: "Install python packages"
   pip:
     name: PyMySQL

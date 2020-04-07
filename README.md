@@ -17,4 +17,4 @@ ansible-playbook playbook.yml -e "destroy=yes"
 
 ## Create virtualenv
 - Create virtualenv: `mkvirtualenv -p /usr/bin/python3 <virtualenv_name>`
-- Install requirements packages: `pip install -r requirements.txt`
+- Install requirements packages: `pip3 install -r requirements.txt`

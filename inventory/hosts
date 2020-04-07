@@ -1,2 +1,2 @@
 ...
-instance-jessica    ansible_user=cloud-user     ansible_host=172.16.49.92
+instance-jessica    ansible_user=cloud-user     ansible_host=172.16.49.71

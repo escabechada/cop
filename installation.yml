@@ -3,4 +3,5 @@
 - hosts: instance-jessica
   become: yes
   roles:
+    - common
     - gitea
